@@ -1,0 +1,3 @@
+cd C:\Users\win\gtm-tracker
+venv\Scripts\activate
+pip freeze > requirements.txt
