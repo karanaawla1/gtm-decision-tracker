@@ -1,6 +1,5 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app.models import decision, outcome
 from app.api import decisions
@@ -14,11 +13,17 @@ app = FastAPI(
     version="1.0.0"
 )
 
-app.mount("/static",StaticFiles(directory="app/static"), name="statice")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://localhost:3001"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(decisions.router, prefix="/api/decisions", tags=["Decisions"])
 app.include_router(outcomes_router.router, prefix="/api/outcomes", tags=["Outcomes"])
 
 @app.get("/")
 def root():
-    return FileResponse("app/static/index.html")
+    return {"message": "GTM Tracker chal raha hai!"}
