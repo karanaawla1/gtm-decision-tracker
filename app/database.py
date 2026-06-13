@@ -4,20 +4,14 @@ from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 import os
 
-load_dotenv()  # .env file padho
+load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DB_URL = os.getenv("DATABASE_URL")
 
-# PostgreSQL se connection banao
-engine = create_engine(DATABASE_URL)
-
-# Har request ke liye ek session
+engine = create_engine(DB_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# Saare models yahan se inherit karenge
 Base = declarative_base()
 
-# Yeh function har API call ko DB session deta hai
 def get_db():
     db = SessionLocal()
     try:

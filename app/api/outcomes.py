@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from datetime import datetime
@@ -10,27 +10,25 @@ router = APIRouter()
 
 class OutcomeCreate(BaseModel):
     decision_id: str
-    metric_type: str    # revenue, pipeline, churn
+    metric_type: str
     value: float
     source: Optional[str] = "manual"
     date: Optional[datetime] = None
 
 @router.post("/")
-def create_outcome(data: OutcomeCreate, db: Session = Depends(get_db)):
-    outcome = Outcome(
+def add_outcome(data: OutcomeCreate, db: Session = Depends(get_db)):
+    new_outcome = Outcome(
         decision_id=data.decision_id,
         metric_type=data.metric_type,
         value=data.value,
         source=data.source,
         date=data.date or datetime.utcnow()
     )
-    db.add(outcome)
+    db.add(new_outcome)
     db.commit()
-    db.refresh(outcome)
-    return {"message": "Outcome created!", "id": str(outcome.id)}
+    db.refresh(new_outcome)
+    return {"message": "Outcome saved!", "id": str(new_outcome.id)}
 
 @router.get("/{decision_id}")
-def get_outcomes(decision_id: str, db: Session = Depends(get_db)):
-    outcomes = db.query(Outcome).filter(
-        Outcome.decision_id == decision_id).all()
-    return outcomes
+def fetch_outcomes(decision_id: str, db: Session = Depends(get_db)):
+    return db.query(Outcome).filter(Outcome.decision_id == decision_id).all()

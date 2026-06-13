@@ -9,7 +9,6 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="GTM Decision Tracker",
-    description="Track ROI of GTM decisions",
     version="1.0.0"
 )
 
@@ -26,4 +25,4 @@ app.include_router(outcomes_router.router, prefix="/api/outcomes", tags=["Outcom
 
 @app.get("/")
 def root():
-    return {"message": "GTM Tracker chal raha hai!"}
+    return {"message": "GTM Tracker is live!"}

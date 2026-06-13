@@ -4,39 +4,32 @@ from app.services.attribution import analyze_decision
 from app.services.cache import set_cached_analysis
 
 @celery_app.task
-def sync_all_decisions():
-    """Sare active decisions ka analysis refresh karo"""
-    # Models yahan import karo — Celery ke liye zaruri hai
+def refresh_all_decisions():
     from app.models.decision import Decision
-    from app.models.outcome import Outcome
 
     db = SessionLocal()
     try:
-        decisions = db.query(Decision).filter(
-            Decision.status == "active").all()
-        updated = 0
-        for decision in decisions:
-            analysis = analyze_decision(decision, decision.outcomes)
-            set_cached_analysis(str(decision.id), analysis)
-            updated += 1
-        print(f"Synced {updated} decisions")
-        return {"synced": updated}
+        active = db.query(Decision).filter(Decision.status == "active").all()
+        count = 0
+        for d in active:
+            result = analyze_decision(d, d.outcomes)
+            set_cached_analysis(str(d.id), result)
+            count += 1
+        print(f"{count} decisions refresh ho gaye")
+        return {"refreshed": count}
     finally:
         db.close()
 
 @celery_app.task
-def calculate_single(decision_id: str):
-    """Ek decision ka analysis background mein karo"""
+def refresh_single(decision_id: str):
     from app.models.decision import Decision
-    from app.models.outcome import Outcome
 
     db = SessionLocal()
     try:
-        decision = db.query(Decision).filter(
-            Decision.id == decision_id).first()
-        if decision:
-            analysis = analyze_decision(decision, decision.outcomes)
-            set_cached_analysis(decision_id, analysis)
-            return analysis
+        d = db.query(Decision).filter(Decision.id == decision_id).first()
+        if d:
+            result = analyze_decision(d, d.outcomes)
+            set_cached_analysis(decision_id, result)
+            return result
     finally:
         db.close()

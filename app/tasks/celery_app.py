@@ -8,7 +8,7 @@ celery_app = Celery(
     "gtm_tracker",
     broker=os.getenv("REDIS_URL", "redis://localhost:6379/0"),
     backend=os.getenv("REDIS_URL", "redis://localhost:6379/0"),
-    include=["app.tasks.sync_tasks"]  # ← yeh add kiya
+    include=["app.tasks.sync_tasks"]
 )
 
 celery_app.conf.update(
