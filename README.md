@@ -1,4 +1,4 @@
-# GTM Decision Tracker — Backend 🚀
+# GTM Decision Tracker — Backend 
 
 > ROI Attribution Engine for B2B SaaS GTM teams — track decisions, link outcomes, and get automatic SCALE/KILL/MAINTAIN/MONITOR recommendations based on time-decay weighted ROI.
 
@@ -185,17 +185,6 @@ hire, 2024-01-15, Sales Team, 8000, SDR hire Q1
 ad_spend, 2024-01-20, Marketing, 5000, Google Ads January campaign
 tool, 2024-02-01, Engineering, 500, GitHub Copilot subscription
 ```
-
----
-
-## 🎤 Interview Talking Points
-
-- *"Built a time-decay weighted correlation engine with 0-1 confidence scoring."*
-- *"Designed an ETL pipeline ingesting CSV data into a normalized PostgreSQL schema using Pandas."*
-- *"Implemented a Redis caching layer with cache invalidation, reducing repeated computation by ~80%."*
-- *"Built async Celery workers for overnight batch data sync with failure recovery."*
-- *"Containerized the full stack with Docker and docker-compose for one-command deployment."*
-- *"Built a full CRUD REST API with bulk-analysis and dashboard-summary endpoints."*
 
 ---
 
