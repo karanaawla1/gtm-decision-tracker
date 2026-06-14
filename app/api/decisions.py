@@ -66,12 +66,21 @@ def dashboard_summary(db: Session = Depends(get_db)):
     roi_count = 0
 
     for d in all_decisions:
-        cached = get_cached_analysis(str(d.id))
-        if cached:
-            rec = cached.get("recommendation", "NO_DATA")
+        if d.outcomes:
+            # Pehle cache check karo, nahi mile to directly calculate karo
+            cached = get_cached_analysis(str(d.id))
+            if cached:
+                analysis = cached
+            else:
+                analysis = analyze_decision(d, d.outcomes)
+                set_cached_analysis(str(d.id), analysis)
+
+            rec = analysis.get("recommendation", "NO_DATA")
             rec_counts[rec] = rec_counts.get(rec, 0) + 1
-            total_roi += cached.get("roi", 0)
+            total_roi += analysis.get("roi", 0)
             roi_count += 1
+        else:
+            rec_counts["NO_DATA"] += 1
 
     type_breakdown = {}
     for d in all_decisions:
