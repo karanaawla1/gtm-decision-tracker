@@ -2,7 +2,7 @@
 
 > ROI Attribution Engine for B2B SaaS GTM teams. Tracks GTM decisions (hires, ad spend, vendors, tools) and scores them as **SCALE**, **MAINTAIN**, **MONITOR**, or **KILL** using time-decay weighted revenue attribution.
 
-**Live API docs:** `https://gtm-decision-tracker-production.up.railway.app/docs`
+**Live API docs:** "https://gtm-decision-tracker-production.up.railway.app/docs"
 
 ---
 
@@ -212,6 +212,6 @@ Celery workers run independently of the API process and handle overnight batch r
 
 ## Links
 
-- Frontend (live): `https://gtm-frontend-production.up.railway.app`
-- API docs (Swagger): `https://gtm-decision-tracker-production.up.railway.app/docs`
-- Frontend repo: `https://github.com/karanaawla1/gtm-frontend`
+- Frontend (live): "https://gtm-frontend-production.up.railway.app"
+- API docs (Swagger): "https://gtm-decision-tracker-production.up.railway.app/docs"
+- Frontend repo: "https://github.com/karanaawla1/gtm-frontend"
